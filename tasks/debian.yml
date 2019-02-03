@@ -3,10 +3,18 @@
   apt:
     update_cache: yes
     cache_valid_time: 3600
+  register: task_result
+  until: task_result is succeeded
+  retries: 5
+  delay: 5
 
 - name: Download and Install Grafana Package on Debian
   apt:
-    deb: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_{{ grafana_version }}_amd64.deb 
+    deb: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_{{ grafana_version }}_amd64.deb
+  register: task_result
+  until: task_result is succeeded
+  retries: 5
+  delay: 5
 
 - name: Move the configuration File of Grafana
   template:
